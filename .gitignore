@@ -1,0 +1,122 @@
+import random
+
+Alphabet=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"," ","0","1","2","3","4","5","6","7","8","9",":",";","'","@","#",".","?","!","%","&","(",")","[","]","-","_","=","+",",","/","~","{","}","*","^","$","£","`"]
+Key = "0This1Is2The3Key4For5The6Vernam7Cipher8Encryption9Program0"
+
+def EorD():
+    if Start == "e":
+        Encrypt()
+    elif Start == "d":
+        Decrypt()
+
+def Encrypt():
+    print()
+    Type = input("What type of encryption would you like to use? Caesar Cipher(C) or Vernam Cipher(V) ").lower()
+    while not (Type == "c" or Type == "v"):
+        print("Invalid input! Enter either C or V")
+        print()
+        Type = input("What type of encryption would you like to use? Caesar Cipher(C) or Vernam Cipher(V) ").lower()
+        print()
+    if Type == "c":
+        Caesar(Alphabet)
+    elif Type == "v":
+        Vernam(Key)
+
+def Decrypt():
+    print()
+    Type = input("What type of encryption has been used on the message? Caesar Cipher(C) or Vernam Cipher(V) ").lower()
+    while not (Type == "c" or Type == "v"):
+        print("Invalid input! Enter either C or V")
+        print()
+        Type = input("What type of encryption has been used on the message? Caesar Cipher(C) or Vernam Cipher(V) ").lower()
+        print()
+    if Type == "c":
+        DeCaesar(Alphabet)
+    else:
+        DeVernam()
+
+def Caesar(Alphabet):
+    print()
+    print ("The Order of the used alphabet in this Caesar Cipher is:\n" + str(Alphabet) )
+    print()
+    Plaintext = input("Enter messsage to encrypt: ")
+    Shift = random.randint(-100, 100)
+    while Shift == '0':
+        Shift = random.randint(-100, 100)
+    if Shift < 0:
+        Left = Shift*-1
+        RL = ("Left by " + str(Left))    
+    else:
+        RL = ("Right by " + str(Shift))
+    Dictionary= {}
+    for i in range(0,len(Alphabet)):
+        Dictionary[Alphabet[i]]= Alphabet[(i+Shift)%len(Alphabet)]
+        Ciphertext= ""
+    for I in Plaintext:
+        if I in Dictionary:
+            I = Dictionary[I]
+            Ciphertext+= I
+    print()        
+    print("The message has been shifted to the " + str(RL) + " places")
+    print()
+    print("The Encrypted code is: " + str(Ciphertext))
+
+def Vernam(Key):
+    print()
+    Plaintext = input("Enter messsage to encrypt: ")
+    Ciphertext = ""
+    P = 0
+    for Char in Plaintext:
+        Ciphertext += chr(ord(Char) ^ ord(Key[P]))
+        P += 1
+        if P == len(Key):
+            P = 0
+    print()
+    print("The Encrypted code is: "+ str(Ciphertext))
+    print()
+    print("The Key for the encryption is: " + str(Key))
+
+def DeVernam():
+    print()
+    Plaintext = input("Enter messsage to encrypt: ")
+    DeKey = input("What is the key that was used to encrypt the message? : ")
+    Ciphertext = ""
+    P = 0
+    for Char in Plaintext:
+        Ciphertext += chr(ord(Char) ^ ord(DeKey[P]))
+        P += 1
+        if P == len(DeKey):
+            P = 0
+    print()
+    print("The Decrypted code is: "+ str(Ciphertext))
+    print()
+    
+
+def DeCaesar(Alphabet):
+    print()
+    Plaintext = input("Enter the encrypted message: ")
+    Shift = int(input("How many places has the message been shifted to? (If it has been shifted to the left enter a minus before the number e.g. -34) "))
+    Shift = Shift *-1
+    Dictionary= {}
+    for i in range(0,len(Alphabet)):
+        Dictionary[Alphabet[i]]= Alphabet[(i+Shift)%len(Alphabet)]
+        Ciphertext= ""
+    for I in Plaintext:
+        if I in Dictionary:
+            I = Dictionary[I]
+            Ciphertext+= I
+    print()
+    print("The Decrypted code is: " + str(Ciphertext))
+    print()
+    
+
+Start = input("Do you want to encrypt a message or decrypt a message? Encrypt(E) or Decrypt(D) ").lower()
+while not (Start == "e" or Start == "d"):
+    print()
+    print("Invalid input! Enter either E or D")
+    print()
+    Start = input("Do you want to encrypt a message or decrypt a message? Encrypt(E) or Decrypt(D) ").lower()
+EorD()
+
+
+
